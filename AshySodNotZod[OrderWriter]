@@ -1,0 +1,80 @@
+/* CPT 187, Ashy Joshua
+ * February,17 2020
+ * The purpose of this Program is to gather item selection and what
+ * category the customer falls under for membership and then provide 
+ * a detailed report of purchase and which prize was selected by random.
+ * I used the information provided in the supportive class. 
+ */
+
+package edu.cpt187.ashy.participation6;
+
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.io.IOException;
+
+public class OrderWriter
+{
+
+	//declare and initialize constants
+	private final int NOT_FOUND = -1;
+	private final int RESET_VALUE = 0;
+
+	//declare non constants
+	private String masterFileName = "";
+	private boolean fileFoundFlag = true;
+	private int recordCount = 0;
+
+	//Constructor
+	public OrderWriter(String borrowedFileName)
+	{
+		masterFileName = borrowedFileName;
+	}
+
+
+	//set WriteOrder 
+	public void setWriteOrder(int borrowedItemID, String borrowedItemName, double borrowedItemPrice, int borrowedQuanity, double borrowedOrderCost)
+	{
+		recordCount = RESET_VALUE;
+		try
+		{
+			//Initiate Print Writer
+			PrintWriter filePW = new PrintWriter(new FileWriter(masterFileName,true));
+
+			//write one record for the order receipt
+			filePW.printf("%d\t%s\t%f\t%d\t%8.2f\n",borrowedItemID, borrowedItemName, borrowedItemPrice, borrowedQuanity, borrowedOrderCost);
+
+			fileFoundFlag = true;
+			recordCount++;
+			//close the file
+			filePW.close();
+
+		}//end try
+
+		//catch if file is not found
+		catch(IOException ex)
+		{
+			recordCount = NOT_FOUND;
+			fileFoundFlag = false;
+		}
+
+	}
+
+	//get file name from 
+	public String getFileName()
+	{
+		return masterFileName;
+	}
+
+	//get file found boolean
+	public boolean getFileFoundFlag()
+	{
+		return fileFoundFlag;
+	}
+
+	//get record count
+	public int getRecordCount()
+	{
+		return recordCount;
+	}
+
+}//end class
